@@ -1,0 +1,95 @@
+server:
+  port: 8080 # 设置端口号
+  servlet:
+    context-path: /   # 设置访问路径
+
+
+
+#mysql和阿里druid配置
+spring:
+  application:
+    name: stxy_sms_admin    #指定应用的名称建议使用小写
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://119.23.222.109:3306/stxy_sms?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    # 初始化大小，最小，最大
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    #validationQuery: select 'x'
+    testWhileIdle: false
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+
+
+# Redis 配置
+  redis:
+    database: 0
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: -1
+        max-idle: 8
+        min-idle: 5
+    timeout: 5000
+    comandTimeout : 15000
+    host: 39.108.86.193
+    port: 6379
+    password: 123456
+  rabbitmq:  # rabbitmq 配置
+    host: 39.108.86.193
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true  # 开启发送确认
+    virtual-host: /
+    publisher-returns: true # 开启发送失败退回
+    listener:
+      direct:
+        acknowledge-mode: manual # 开启ACK
+      simple:
+        acknowledge-mode: manual # 开启ACK
+
+logging:
+   level:
+    com:
+       example:
+         looedu:
+           mapper: debug
+# mybatis配置mapper
+mybatis:
+   type-aliases-package: tk.mybatis.springboot.model
+   mapper-locations: classpath*:mapper/*.xml
+mapper:
+   mappers:
+      com.stxy.smsadmin.dataobject.mapper
+   not-empty: false
+   identity: MYSQL
+pagehelper:
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql
+
+
+
+
