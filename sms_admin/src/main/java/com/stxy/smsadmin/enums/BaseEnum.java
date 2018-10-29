@@ -7,8 +7,6 @@ package com.stxy.smsadmin.enums;
 public interface BaseEnum {
 
     String getCode();
-
-
     String getMessage();
 
 }
