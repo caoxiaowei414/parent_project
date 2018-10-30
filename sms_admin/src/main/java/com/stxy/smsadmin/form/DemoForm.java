@@ -16,6 +16,7 @@ public class DemoForm {
     @NotBlank(message = "姓名必填")
     private String name;
 
+
     /**
      * 买家手机号
      */
